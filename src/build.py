@@ -52,7 +52,7 @@ def files_list(section: str) -> list:
     return files
 
 def path(file: str, section: str):
-    _dir = "pkgs/"
+    _dir = "/usr/share/build_system/pkgs/"
     comb = f"{_dir}{section}/{file}"
     return comb
 

@@ -4,6 +4,7 @@ install:
 	mkdir -pv /usr/share/build_system
 	cp ./src/build.sh /usr/share/build_system
 	cp ./src/help /usr/share/build_system
+	cp ./src/pkgs /usr/share/build_system -r
 
 remove:
 	if [ -f "/usr/bin/build_system" ]; then rm -rf /usr/bin/build_system; fi
