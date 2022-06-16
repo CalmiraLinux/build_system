@@ -1,0 +1,15 @@
+#!/bin/bash -e
+# Создание необходимых директорий системы
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+mkdir -v $LFS/sources
+chmod -v a+wt $LFS/sources
+
+wget https://linuxfromscratch.org/lfs/view/development/wget-list
+wget --input-file=wget-list --continue --directory-prefix=$LFS/sources
+
+pushd $LFS/sources
+    wget https://linuxfromscratch.org/lfs/view/development/md5sums
+    md5sum -c md5sums
+popd

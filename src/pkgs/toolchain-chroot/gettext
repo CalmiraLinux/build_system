@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# Build package 'gettext' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="gettext"
+VERSION="0.21"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --disable-shared
+
+make
+cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin

@@ -1,0 +1,16 @@
+#!/bin/bash -e
+# Build package 'gzip' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="gzip"
+VERSION="1.12"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr --host=$LFS_TGT
+
+make
+make DESTDIR=$LFS install
+
+mv -v $LFS/usr/bin/gzip $LFS/bin

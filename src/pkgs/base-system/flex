@@ -1,0 +1,18 @@
+#!/bin/bash -e
+# Build package 'flex' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="flex"
+VERSION="2.6.4"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr    \
+            --disable-static \
+            --docdir=/usr/share/doc/flex-$VERSION
+
+make
+
+make install
+ln -sv flex /usr/bin/lex

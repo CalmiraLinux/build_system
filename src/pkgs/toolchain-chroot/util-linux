@@ -1,0 +1,27 @@
+#!/bin/bash -e
+# Build package 'util-linux' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="util-linux"
+VERSION="2.38"
+
+cd /usr/src/$NAME-$VERSION
+
+mkdir -pv /var/lib/hwclock
+
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime   \
+            --docdir=/usr/share/doc/util-linux-2.38 \
+            --disable-chfn-chsh  \
+            --disable-login      \
+            --disable-nologin    \
+            --disable-su         \
+            --disable-setpriv    \
+            --disable-runuser    \
+            --disable-pylibmount \
+            --disable-static     \
+            --without-python     \
+            runstatedir=/run
+
+make
+make install

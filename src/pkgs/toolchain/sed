@@ -1,0 +1,16 @@
+#!/bin/bash -e
+# Build package 'sed' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="sed"
+VERSION="4.8"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr   \
+            --host=$LFS_TGT \
+            --bindir=/bin
+
+make
+make DESTDIR=$LFS install

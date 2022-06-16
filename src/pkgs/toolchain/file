@@ -1,0 +1,23 @@
+#!/bin/bash -e
+# Build package 'file' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="file"
+VERSION="5.41"
+
+cd /usr/src/$NAME-$VERSION
+
+mkdir build
+pushd build
+  ../configure --disable-bzlib      \
+               --disable-libseccomp \
+               --disable-xzlib      \
+               --disable-zlib
+  make
+popd
+
+./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
+
+make FILE_COMPILE=$(pwd)/build/src/file
+make DESTDIR=$LFS install

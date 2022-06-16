@@ -1,0 +1,19 @@
+#!/bin/bash -e
+# Build package 'zlib' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="zlib"
+VERSION="1.2.12"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr
+
+make
+make install
+
+mv -v /usr/lib/libz.so.* /lib
+ln -sfv ../../lib/$(readlink /usr/lib/libz.so) /usr/lib/libz.so
+
+rm -fv /usr/lib/libz.a

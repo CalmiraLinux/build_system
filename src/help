@@ -1,0 +1,7 @@
+Usage: build_system [build_type]
+
+Build types:
+    * cross-toolchain
+    * toolchain
+    * core-system
+    * extended-system

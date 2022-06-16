@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+
+import os
+import sys
+import toml
+
+port = sys.argv[1]
+version = sys.argv[2]
+
+conf = toml.load(f"../../main.toml")
+maintainer = conf['build-system']['maintainer']
+system_name = conf['build-system']['system']
+years = conf['build-system']['years']
+
+data = f"""#!/bin/bash -e
+# Build package '{port}' from source
+# For {system_name}
+# Copyright (C) {years} {maintainer}
+
+NAME="{port}"
+VERSION="{version}"
+
+cd /usr/src/$NAME-$VERSION
+
+"""
+
+with open(port, 'w') as f:
+    f.write(data)
+os.system(f"nvim {port}")

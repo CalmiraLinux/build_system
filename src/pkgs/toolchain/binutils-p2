@@ -1,0 +1,26 @@
+#!/bin/bash -e
+# Build package 'binutils-p2' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="binutils-p2"
+VERSION="2.38"
+
+cd /usr/src/$NAME-$VERSION
+
+sed '6009s/$add_dir//' -i ltmain.sh
+
+mkdir build
+cd build
+
+../configure                   \
+    --prefix=/usr              \
+    --build=$(../config.guess) \
+    --host=$LFS_TGT            \
+    --disable-nls              \
+    --enable-shared            \
+    --disable-werror           \
+    --enable-64-bit-bfd
+
+make
+make DESTDIR=$LFS install

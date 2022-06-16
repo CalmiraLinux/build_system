@@ -1,0 +1,130 @@
+[build-system]
+maintainer = "Michail Krasnov <linuxoid85@gmail.com>"
+system     = "Calmira 1.2a2.1 GNU/Linux-libre"
+years      = "2021, 2022"
+
+[prepare]
+pkgs = [
+    "archives",
+    "dirs"
+]
+
+[toolchain]
+pkgs = [
+    "binutils",
+    "gcc",
+    "linux",
+    "glibc",
+    "libstdcpp",
+    "m4",
+    "bash",
+    "coreutils",
+    "diffutils",
+    "file",
+    "findutils",
+    "gawk",
+    "grep",
+    "gzip",
+    "make",
+    "patch",
+    "sed",
+    "tar",
+    "xz",
+    "binutils-p2",
+    "gcc-p2"
+]
+
+[toolchain-chroot]
+pkgs = [
+    "dirs",
+    "gettext",
+    "bison",
+    "perl",
+    "python",
+    "texinfo",
+    "util-linux",
+    "clean_sys"
+]
+
+[base-system]
+pkgs = [
+    "iana-etc",
+    "glibc",
+    "zlib",
+    "bzip2",
+    "xz",
+    "zstd",
+    "file",
+    "readline",
+    "m4",
+    "bc",
+    "flex",
+    "binutils",
+    "gmp",
+    "mpfr",
+    "mpc",
+    "attr",
+    "acl",
+    "libcap",
+    "shadow",
+    "gcc",
+    "pkg-config",
+    "ncurses",
+    "sed",
+    "psmisc",
+    "gettext",
+    "bison",
+    "grep",
+    "bash",
+    "libtool",
+    "gdbm",
+    "gperf",
+    "expat",
+    "inetutils",
+    "less",
+    "perl",
+    "xml-parser",
+    "intltool",
+    "autoconf",
+    "automake",
+    "openssl",
+    "kmod",
+    "libelf",
+    "libffi",
+    "python",
+    "wheel",
+    "ninja",
+    "meson",
+    "coreutils",
+    "check",
+    "diffutils",
+    "gawk",
+    "findutils",
+    "groff",
+    "grub",
+    "gzip",
+    "iproute2",
+    "kbd",
+    "libpipeline",
+    "make",
+    "patch",
+    "tar",
+    "texinfo",
+    "eudev",
+    "man-db",
+    "procps-ng",
+    "util-linux",
+    "e2fsprogs",
+    "sysklogd",
+    "sysvinit",
+    "sys_stripping",
+    "bootscripts",
+    "sys_configs",
+    "linux"
+]
+
+[master_configs]
+root_disk = "/dev/sda3"
+grub_disk = "/dev/sda"
+user_name = "linuxoid85"
+host_name = "test-pc"

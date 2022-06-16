@@ -1,0 +1,24 @@
+#!/bin/bash -e
+# Build package 'gmp' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="gmp"
+VERSION="6.2.1"
+
+cd /usr/src/$NAME-$VERSION
+
+cp -v configfsf.guess config.guess
+cp -v configfsf.sub   config.sub
+
+./configure --prefix=/usr    \
+            --enable-cxx     \
+            --disable-static \
+            --build=x86_64-pc-linux-gnu \
+            --docdir=/usr/share/doc/gmp-$VERSION
+
+make
+make html
+
+make install
+make install-html

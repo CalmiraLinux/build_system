@@ -1,0 +1,40 @@
+#!/bin/bash -e
+# Build package 'ncurses' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="ncurses"
+VERSION="6.3"
+
+cd /usr/src/$NAME-$VERSION
+
+sed -i s/mawk// configure
+
+mkdir build
+pushd build
+  ../configure
+  make -C include
+  make -C progs tic
+popd
+
+./configure --prefix=/usr                \
+            --host=$LFS_TGT              \
+            --build=$(./config.guess)    \
+            --mandir=/usr/share/man      \
+            --with-manpage-format=normal \
+            --with-shared                \
+            --without-debug              \
+            --without-ada                \
+            --without-normal             \
+            --disable-stripping          \
+            --enable-widec
+
+make
+
+make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
+echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so
+
+mv -v $LFS/usr/lib/libncursesw.so.6* $LFS/lib
+ln -sfv ../../lib/$(readlink $LFS/usr/lib/libncursesw.so) $LFS/usr/lib/libncursesw.so
+
+rm -v $LFS/usr/lib/libncurses++w.a

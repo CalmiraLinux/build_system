@@ -1,0 +1,18 @@
+#!/bin/bash -e
+# Build package 'gawk' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="gawk"
+VERSION="5.1.1"
+
+cd /usr/src/$NAME-$VERSION
+
+sed -i 's/extras//' Makefile.in
+
+./configure --prefix=/usr   \
+            --host=$LFS_TGT \
+            --build=$(build-aux/config.guess)
+
+make
+make DESTDIR=$LFS install

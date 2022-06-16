@@ -1,0 +1,31 @@
+#!/bin/bash -e
+# Build package 'binutils' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="binutils"
+VERSION="2.38"
+
+cd /usr/src/$NAME-$VERSION
+
+patch -Np1 -i ../binutils-$VERSION-lto_fix-1.patch
+
+sed -e '/R_386_TLS_LE /i \   || (TYPE) == R_386_TLS_IE \\' \
+    -i ./bfd/elfxx-x86.h
+
+mkdir -v build
+cd build
+
+../configure --prefix=/usr       \
+             --enable-gold       \
+             --enable-ld=default \
+             --enable-plugins    \
+             --enable-shared     \
+             --disable-werror    \
+             --enable-64-bit-bfd \
+             --with-system-zlib
+
+make tooldir=/usr
+make tooldir=/usr install
+
+rm -fv /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
