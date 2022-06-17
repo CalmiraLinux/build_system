@@ -1,0 +1,26 @@
+#!/bin/bash -e
+# Build package 'inetutils' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="inetutils"
+VERSION="2.2"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr        \
+            --bindir=/usr/bin    \
+            --localstatedir=/var \
+            --disable-logger     \
+            --disable-whois      \
+            --disable-rcp        \
+            --disable-rexec      \
+            --disable-rlogin     \
+            --disable-rsh        \
+            --disable-servers
+
+make
+make install
+
+mv -v /usr/bin/{hostname,ping,ping6,traceroute} /bin
+mv -v /usr/bin/ifconfig /sbin

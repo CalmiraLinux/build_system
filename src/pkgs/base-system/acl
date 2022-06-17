@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Build package 'acl' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="acl"
+VERSION="2.3.1"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr         \
+            --bindir=/bin         \
+            --disable-static      \
+            --libexecdir=/usr/lib \
+            --docdir=/usr/share/doc/acl-$VERSION
+
+make
+make install
+
+mv -v /usr/lib/libacl.so.* /lib
+ln -sfv ../../lib/$(readlink /usr/lib/libacl.so) /usr/lib/libacl.so

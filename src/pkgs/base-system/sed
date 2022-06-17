@@ -1,0 +1,19 @@
+#!/bin/bash -e
+# Build package 'sed' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="sed"
+VERSION="4.8"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr --bindir=/bin
+
+make
+make html
+
+make install
+
+install -d -m755           /usr/share/doc/sed-$VERSION
+install -m644 doc/sed.html /usr/share/doc/sed-$VERSION

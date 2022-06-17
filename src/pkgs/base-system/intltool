@@ -1,0 +1,17 @@
+#!/bin/bash -e
+# Build package 'intltool' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="intltool"
+VERSION="0.51.0"
+
+cd /usr/src/$NAME-$VERSION
+
+sed -i 's:\\\${:\\\$\\{:' intltool-update.in
+./configure --prefix=/usr
+
+make
+
+make install
+install -v -Dm644 doc/I18N-HOWTO /usr/share/doc/intltool-$VERSION/I18N-HOWTO

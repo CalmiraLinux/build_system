@@ -1,0 +1,49 @@
+#!/bin/bash -e
+# Build package 'ncurses' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+##########################
+##                      ##
+## TODO: NEED TO TESTS! ##
+##                      ##
+##########################
+
+NAME="ncurses"
+VERSION="6.3"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr           \
+            --mandir=/usr/share/man \
+            --with-shared           \
+            --without-debug         \
+            --without-normal        \
+            --enable-pc-files       \
+            --enable-widec          \
+            --with-pkg-config-libdir=/usr/lib/pkgconfig
+
+make
+
+make DESTDIR=$PWD/dest install
+install -vm755 dest/usr/lib/libncursesw.so.6.3 /usr/lib
+rm -v  dest/usr/lib/{libncursesw.so.6.3,libncurses++w.a}
+cp -av dest/* /
+
+mv -v /usr/lib/libncursesw.so.6* /lib
+ln -sfv ../../lib/$(readlink /usr/lib/libncursesw.so) /usr/lib/libncursesw.so
+
+for lib in ncurses form panel menu ; do
+    rm -vf                    /usr/lib/lib${lib}.so
+    echo "INPUT(-l${lib}w)" > /usr/lib/lib${lib}.so
+    ln -sfv ${lib}w.pc        /usr/lib/pkgconfig/${lib}.pc
+done
+
+rm -fv /usr/lib/libncurses++w.a
+
+rm -vf                     /usr/lib/libcursesw.so
+echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
+ln -sfv libncurses.so      /usr/lib/libcurses.so
+
+mkdir -pv      /usr/share/doc/ncurses-$VERSION
+cp -v -R doc/* /usr/share/doc/ncurses-$VERSION

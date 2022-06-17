@@ -1,0 +1,20 @@
+#!/bin/bash -e
+# Build package 'bash' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="bash"
+VERSION="5.1.16"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr                         \
+            --docdir=/usr/share/doc/bash-$VERSION \
+            --without-bash-malloc                 \
+            --with-installed-readline
+
+make
+make install
+
+mv -vf /usr/bin/bash /bin
+#exec /bin/bash --login +h

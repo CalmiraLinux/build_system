@@ -1,14 +1,14 @@
 #!/bin/bash -e
-# Build package 'm4' from source
+# Build package 'bison' from source
 # For Calmira 1.2a2.1 GNU/Linux-libre
 # Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
 
-NAME="m4"
-VERSION="1.4.19"
+NAME="bison"
+VERSION="3.8.2"
 
 cd /usr/src/$NAME-$VERSION
 
-./configure --prefix=/usr
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-$VERSION
 
 make
 make install

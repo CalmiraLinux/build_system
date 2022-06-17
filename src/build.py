@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 #
 # Calmira Build System
-# Copyright (C) 2021, 2022  Linuxoid85
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -102,7 +102,6 @@ def build_packages(tp: str) -> int:
             log_msg(f"building package '{file}' is FAIL!")
             log_msg("Aborted building.")
             return run
-
     return 0
 
 try:
