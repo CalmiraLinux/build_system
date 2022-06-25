@@ -1,0 +1,19 @@
+#!/bin/bash -e
+# Build package 'iproute2' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="iproute2"
+VERSION="5.18.0"
+
+cd /usr/src/$NAME-$VERSION
+
+sed -i /ARPD/d Makefile
+rm -fv man/man8/arpd.8
+
+make NETNS_RUN_DIR=/run/netns
+
+make SBINDIR=/sbin install
+
+mkdir -pv             /usr/share/doc/iproute2-$VERSION
+cp -v COPYING README* /usr/share/doc/iproute2-$VERSION

@@ -1,0 +1,20 @@
+#!/bin/bash -e
+# Build package 'elfutils' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="elfutils"
+VERSION="0.187"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr                \
+            --disable-debuginfod         \
+            --enable-libdebuginfod=dummy \
+            --libdir=/lib
+
+make
+
+make -C libelf install
+install -vm644 config/libelf.pc /usr/lib/pkgconfig
+rm /lib/libelf.a

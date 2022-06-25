@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Build package 'python' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="Python"
+VERSION="3.10.4"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr        \
+            --enable-shared      \
+            --with-system-expat  \
+            --with-system-ffi    \
+            --enable-optimizations
+
+make
+make install
+
+sed -e '/def warn_if_run_as_root/a\    return' \
+    -i /usr/lib/python3.10/site-packages/pip/_internal/cli/req_command.py

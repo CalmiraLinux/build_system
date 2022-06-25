@@ -74,8 +74,7 @@ def build(pkg: str) -> int:
     if run.returncode != 0:
         log_msg(f"Building package '{pkg}' error!")
         answ = input("Continue (c), repeat (r) or exit(e/x)? ")
-        ex_lst = ('e', 'E', 'x', 'X')
-        if answ in ex_lst:
+        if answ == "e" or answ == "x":
             print("Aborted.", file = sys.stderr)
             return -1
         elif answ == "c":
@@ -101,6 +100,16 @@ def build_packages(tp: str) -> int:
         else:
             log_msg(f"building package '{file}' is FAIL!")
             log_msg("Aborted building.")
+
+            answ = input("Continue (c), repeat (r) or exit(e/x)? ")
+            if answ == "e" or answ == "x":
+                print("Aborted.", file = sys.stderr)
+                return -1
+            elif answ == "c":
+                print("Continue building...", file = sys.stderr)
+            elif answ == "r":
+                print("Repeat building...", file = sys.stderr)
+                build(path(file, tp))
             return run
     return 0
 

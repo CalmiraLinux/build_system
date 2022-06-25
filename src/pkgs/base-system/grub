@@ -1,0 +1,20 @@
+#!/bin/bash -e
+# Build package 'grub' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="grub"
+VERSION="2.06"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr          \
+            --sbindir=/sbin        \
+            --sysconfdir=/etc      \
+            --disable-efiemu       \
+            --disable-werror
+
+make
+
+make install
+mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions

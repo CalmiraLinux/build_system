@@ -1,0 +1,17 @@
+#!/bin/bash -e
+# Build package 'texinfo' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="texinfo"
+VERSION="6.8"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr
+
+sed -e 's/__attribute_nonnull__/__nonnull/' \
+    -i gnulib/lib/malloc/dynarray-skeleton.c
+
+make
+make install

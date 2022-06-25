@@ -1,0 +1,15 @@
+#!/bin/bash -e
+# Build package 'efibootmgr' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="efibootmgr"
+VERSION="17"
+
+cd /usr/src/$NAME-$VERSION
+
+sed -e '/extern int efi_set_verbose/d' -i src/efibootmgr.c
+sed 's/-Werror//' -i Make.defaults
+
+make EFIDIR=CALM EFI_LOADER=grubx64.efi
+make install EFIDIR=CALM

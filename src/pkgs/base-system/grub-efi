@@ -1,0 +1,42 @@
+#!/bin/bash -e
+# Build package 'grub-efi' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="grub"
+VERSION="2.06"
+
+cd /usr/src/$NAME-$VERSION
+
+mkdir -pv /usr/share/fonts/unifont &&
+gunzip -c ../unifont-14.0.01.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+
+unset {C,CPP,CXX,LD}FLAGS
+case $(uname -m) in i?86 )
+    tar xf ../gcc-12.1.0.tar.xz
+    mkdir gcc-12.1.0/build
+    pushd gcc-12.1.0/build
+        ../configure --prefix=$PWD/../../x86_64-gcc \
+                     --target=x86_64-linux-gnu      \
+                     --with-system-zlib             \
+                     --enable-languages=c,c++       \
+                     --with-ld=/usr/bin/ld
+        make all-gcc
+        make install-gcc
+    popd
+    export TARGET_CC=$PWD/x86_64-gcc/bin/x86_64-linux-gnu-gcc
+esac
+
+./configure --prefix=/usr        \
+            --sysconfdir=/etc    \
+            --sbindir=/sbin      \
+            --disable-efiemu     \
+            --enable-grub-mkfont \
+            --with-platform=efi  \
+            --target=x86_64      \
+            --disable-werror
+unset TARGET_CC
+make
+
+make install
+mv -v /etc/bash_completion.d/grub /usr/share/bash-completion/completions

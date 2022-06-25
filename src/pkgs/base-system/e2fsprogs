@@ -1,0 +1,30 @@
+#!/bin/bash -e
+# Build package 'e2fsprogs' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="e2fsprogs"
+VERSION="1.46.5"
+
+cd /usr/src/$NAME-$VERSION
+
+mkdir -v build
+cd       build
+
+../configure --prefix=/usr           \
+             --bindir=/bin           \
+             --with-root-prefix=""   \
+             --sysconfdir=/etc       \
+             --enable-elf-shlibs     \
+             --disable-libblkid      \
+             --disable-libuuid       \
+             --disable-uuidd         \
+             --disable-fsck
+
+make
+make install
+
+rm -fv /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+
+gunzip -v /usr/share/info/libext2fs.info.gz
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info

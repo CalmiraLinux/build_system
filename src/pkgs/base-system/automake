@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# Build package 'automake' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="automake"
+VERSION="1.16.5"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr --docdir=/usr/share/doc/automake-$VERSION
+
+make
+make install

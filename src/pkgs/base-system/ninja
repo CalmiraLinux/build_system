@@ -1,0 +1,24 @@
+#!/bin/bash -e
+# Build package 'ninja' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="ninja"
+VERSION="1.11.0"
+
+cd /usr/src/$NAME-$VERSION
+
+export NINJAJOBS=4 # NOTE: вместо значения '4' укажите нужное вам.
+
+sed -i '/int Guess/a \
+  int   j = 0;\
+  char* jobs = getenv( "NINJAJOBS" );\
+  if ( jobs != NULL ) j = atoi( jobs );\
+  if ( j > 0 ) return j;\
+' src/ninja.cc
+
+python3 configure.py --bootstrap
+
+install -vm755 ninja /usr/bin/
+install -vDm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
+install -vDm644 misc/zsh-completion  /usr/share/zsh/site-functions/_ninja

@@ -1,0 +1,16 @@
+#!/bin/bash -e
+# Build package 'tar' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="tar"
+VERSION="1.34"
+
+cd /usr/src/$NAME-$VERSION
+
+FORCE_UNSAFE_CONFIGURE=1  \
+./configure --prefix=/usr --bindir=/bin
+
+make
+make install
+make -C doc install-html docdir=/usr/share/doc/tar-$VERSION

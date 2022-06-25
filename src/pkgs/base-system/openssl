@@ -1,0 +1,22 @@
+#!/bin/bash -e
+# Build package 'openssl' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="openssl"
+VERSION="3.0.3"
+
+cd /usr/src/$NAME-$VERSION
+
+./config --prefix=/usr         \
+         --openssldir=/etc/ssl \
+         --libdir=lib          \
+         shared                \
+         zlib-dynamic
+
+make
+
+sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
+make MANSUFFIX=ssl install
+
+mv -v /usr/share/doc/openssl /usr/share/doc/openssl-$VERSION

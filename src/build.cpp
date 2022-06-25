@@ -51,7 +51,19 @@ void log_msg(const char *msg, const char *color = "==> \033[1m") {
             "': error!\n\033[0m";
         return;
     }
-    out << msg << std::endl;
+    fp << msg << std::endl;
 }
 
-std::string *files_list(const char* section) {}
+std::vector<std::string> files_list(const char *section) {
+    toml::value conf = config();
+    const auto sect = toml::find(conf, section);
+    const auto pkgs = toml::find<std::vector<std::string>>(sect, "pkgs");
+    return pkgs;
+}
+
+int files_list_count(const char *section) {
+    toml::value conf = config();
+    const auto sect = toml::find(conf, section);
+    int count = toml::find<int>(sect, "count");
+    return count;
+}

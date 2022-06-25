@@ -1,0 +1,23 @@
+#!/bin/bash -e
+# Build package 'man-db' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="man-db"
+VERSION="2.10.2"
+
+cd /usr/src/$NAME-$VERSION
+
+./configure --prefix=/usr                           \
+            --docdir=/usr/share/doc/man-db-$VERSION \
+            --sysconfdir=/etc                       \
+            --disable-setuid                        \
+            --enable-cache-owner=bin                \
+            --with-browser=/usr/bin/lynx            \
+            --with-vgrind=/usr/bin/vgrind           \
+            --with-grap=/usr/bin/grap               \
+            --with-systemdtmpfilesdir=              \
+            --with-systemdsystemunitdir=
+
+make
+make install

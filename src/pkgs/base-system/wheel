@@ -1,0 +1,11 @@
+#!/bin/bash -e
+# Build package 'wheel' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="wheel"
+VERSION="0.37.1"
+
+cd /usr/src/$NAME-$VERSION
+
+pip3 install --no-index $PWD

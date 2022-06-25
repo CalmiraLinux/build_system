@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# Build package 'sysvinit' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+NAME="sysvinit"
+VERSION="3.04"
+
+cd /usr/src/$NAME-$VERSION
+
+patch -Np1 -i ../sysvinit-$VERSION-consolidated-1.patch
+
+make
+make install
