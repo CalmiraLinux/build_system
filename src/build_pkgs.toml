@@ -121,5 +121,7 @@ pkgs = [
     "sys_stripping",
     "bootscripts",
     "sys_configs",
-    "linux"
+    "linux",
+    "set_info",
+    "bootloader"
 ]

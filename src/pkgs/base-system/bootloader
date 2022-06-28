@@ -1,0 +1,21 @@
+#!/bin/bash -e
+# Build package 'bootloader' from source
+# For Calmira 1.2a2.1 GNU/Linux-libre
+# Copyright (C) 2021, 2022 Michail Krasnov <linuxoid85@gmail.com>
+
+grub-install /dev/sda
+
+# Так как grub-mkconfig делает очень раздутый конфиг (что не приветствуется в
+# Calmira GNU/Linux-libre), поэтому он создаётся вручную
+cat > /boot/grub/grub.cfg << "EOF"
+# Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod ext2
+set root=(hd0,2)
+
+menuentry "Calmira GNU/Linux-libre (5.18.1-calm-v1.2a2.1)" {
+        linux   /boot/vmlinuz-5.18.1 root=/dev/sda2 ro
+}
+EOF

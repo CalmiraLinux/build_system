@@ -1,0 +1,31 @@
+#!/usr/bin/python
+
+import os
+import time
+import toml
+
+data = toml.load("/usr/share/build_system/distro.toml")
+
+OS = f"""NAME="{data['system']['name']}"
+VERSION="{data['system']['version']}"
+ID=calmira
+PRETTY_NAME="Calmira {data['system']['version']} GNU/Linux-libre"
+VERSION_CODENAME="{data['system']['codename']}"
+"""
+
+LSB = f"""DISTRIB_ID="{data['system']['name']}"
+DISTRIB_RELEASE="{data['system']['version']}"
+DISTRIB_CODENAME="{data['system']['codename']}"
+DISTRIB_DESCRIPTION="Calmira {data['system']['version']} GNU/Linux-libre"
+"""
+
+with open("/etc/os-release", "w") as f:
+    f.write(OS)
+
+with open("/etc/lsb-release", "w") as f:
+    f.write(LSB)
+
+data['system']['build_date'] = time.ctime()
+
+with open("/etc/calm-release", "w") as f:
+    toml.dump(data, f)
