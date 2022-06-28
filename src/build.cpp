@@ -24,6 +24,10 @@ const char *log_file = "/var/log/build-system.log";
 const char *hlp_file = "/usr/share/build_system/help";
 const char *conf_file = "/etc/build_system.toml";
 
+bool isfile(const char* file) {
+    return true;
+}
+
 toml::value config() {
     return toml::parse(conf_file);
 }
@@ -42,8 +46,8 @@ int usage(int code) {
     return code;
 }
 
-void log_msg(const char *msg, const char *color = "==> \033[1m") {
-    std::cout << color << msg << "\033[0m\n";
+void log_msg(const char *msg, const char *color = "\033[1m") {
+    std::cout << "==> " << color << msg << "\033[0m\n";
     
     std::fstream fp(log_file);
     if(!fp.is_open()) {
@@ -66,4 +70,25 @@ int files_list_count(const char *section) {
     const auto sect = toml::find(conf, section);
     int count = toml::find<int>(sect, "count");
     return count;
+}
+
+std::string path(const char* file, const char* section) {
+    std::string _dir = "/usr/share/build_system/pkgs/";
+    std::string comb = _dir + section + file;
+    return comb;
+}
+
+bool check_files(const char* section) {
+    std::vector<std::string> files = files_list(section);
+    int count = files_list_count(section);
+    bool ret_code = true;
+
+    for(int i = 0; i <= count; ++i) {
+        std::string file = path(files[i], section) + files[i];
+        if(!isfile(file.c_str())) {
+            std::cout << "package " << files[i] << ": fail\n";
+            ret_code = false;
+        }
+    }
+    return ret_code;
 }

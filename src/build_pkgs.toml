@@ -48,6 +48,7 @@ pkgs = [
 
 [base-system]
 pkgs = [
+    "initial.sh",
     "iana-etc",
     "glibc",
     "zlib",
@@ -122,9 +123,3 @@ pkgs = [
     "sys_configs",
     "linux"
 ]
-
-[master_configs]
-root_disk = "/dev/sda3"
-grub_disk = "/dev/sda"
-user_name = "linuxoid85"
-host_name = "test-pc"

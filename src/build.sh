@@ -10,4 +10,3 @@ fi
 $1
 
 exit $RET_CODE
-
