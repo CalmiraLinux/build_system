@@ -68,8 +68,12 @@ def check_files(section: str) -> bool:
 
     return data
 
-def build(pkg: str) -> int:
-    command = f"./build.sh {pkg}"
+def build(pkg: str, mode: str) -> int:
+    if mode == "chroot":
+        command = f"./build_chroot {pkg}"
+    else:
+        command = f"./build.sh {pkg}"
+
     run = subprocess.run(command, shell = True)
     if run.returncode != 0:
         log_msg(f"Building package '{pkg}' error!")
@@ -85,7 +89,7 @@ def build(pkg: str) -> int:
 
     return run.returncode
 
-def build_packages(tp: str) -> int:
+def build_packages(tp: str, mode: str) -> int:
     if not check_files(tp):
         return 1
     files = files_list(tp)
@@ -93,7 +97,7 @@ def build_packages(tp: str) -> int:
     for file in files:
         msg = f"building package '{file}'"
         log_msg(msg)
-        run = build(path(file, tp))
+        run = build(path(file, tp), mode)
 
         if run == 0:
             log_msg(f"building package '{file}' is OK!")
@@ -114,7 +118,7 @@ def build_packages(tp: str) -> int:
     return 0
 
 try:
-    data = build_packages(sys.argv[1])
+    data = build_packages(sys.argv[1], sys.argv[2])
 except PermissionError:
     print("\033[31m\033[1mPermission error!\033[0m")
     exit(usage(1))

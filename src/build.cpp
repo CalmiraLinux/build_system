@@ -24,6 +24,17 @@ const char *log_file = "/var/log/build-system.log";
 const char *hlp_file = "/usr/share/build_system/help";
 const char *conf_file = "/etc/build_system.toml";
 
+bool isfile(const char* file);
+toml::value config();
+int usage(int code);
+void log_msg(const char* msg, const char* color = "\033[1m");
+std::vector<std::string> files_list(const char* section);
+int files_list_count(const char* section);
+std::string path(const char* file, const char* section);
+bool check_files(const char* section);
+int answer(const char* pkg, const char* mode);
+int build(const char* pkg, const char* mode);
+
 bool isfile(const char* file) {
     return true;
 }
@@ -91,4 +102,46 @@ bool check_files(const char* section) {
         }
     }
     return ret_code;
+}
+
+int answer(const char *pkg, const char *mode) {
+    char answ;
+    std::cout << "Continue (c), repeat (r) or exit (e/x)? ";
+    std::cin >> answ;
+    if(answ == "e" || answ == "x") {
+        std::cout << "Aborted\n";
+        return 1;
+    } else if(answ == "c") {
+        std::cout << "Continue building...\n";
+        return 0;
+    } else if(answ == "r") {
+        std::cout << "Repeat building package '" << pkg << "'...\n";
+        return build(pkg, mode);
+    } else {
+        std::cout << "Unknown character: '" << answ << "'\n";
+        return answ(pkg, mode);
+    }
+}
+
+/*
+ * Work modes:
+ * "chroot";
+ * "base"
+ */
+int build(const char* pkg, const char* mode) {
+    if(mode == "chroot") {
+        std::string command = "./build_chroot.sh " + pkg;
+    } else {
+        std::string command = "./build.sh " + pkg;
+    }
+    int code = system(command);
+    if(code != 0) {
+        std::cout << "\033[1m\033[31m" <<
+            "Building package '" << pkg << "' error!\033[0m\n";
+        int i = answer(pkg, mode);
+        if(i == 1) {
+            return i;
+        }
+    }
+    return code;
 }

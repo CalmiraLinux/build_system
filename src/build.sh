@@ -7,6 +7,4 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
-$1
-
-exit $RET_CODE
+exit $1
